@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link href="http://cdn.jsdelivr.net/webjars/bootstrap/4.0.0-alpha/css/bootstrap.min.css"
+          th:href="@{/webjars/bootstrap/4.0.0-alpha/css/bootstrap.min.css}"
+          rel="stylesheet" media="screen"/>
+
+    <script src="http://cdn.jsdelivr.net/webjars/jquery/2.1.4/jquery.min.js"
+            th:src="@{/webjars/jquery/1.11.1/jquery.min.js}"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"
+            th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.js}"></script>
+    <script type="text/javascript">
+        $(function() {
+            $("#datepicker").datepicker({ dateFormat: "yy-mm-dd" }).val();
+            $("#datepicker").change(function () {
+                $("#datepicker_form").submit();
+            });
+        });
+    </script>
+    <title>Movie Ratings</title>
+</head>
+<body>
+
+    <div class="container">
+        <div class="jumbotron">
+            <h2>Kinopoisk top</h2>
+        </div>
+        <div class="row" style="padding-bottom:25px">
+            <div class="text-center">
+                <div class="container">
+                    <div class="row">
+                        <div class='col-sm-4'>
+                            <div class="form-inline">
+                                <form id="datepicker_form" method="get" role="form" action="#" th:action="@{/}">
+                                    <label class="mr-sm-2" for="datepicker">Date : </label>
+                                    <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" name="requestDate" id="datepicker" th:value="${date}"/>
+                                    <!--<input type="submit" class="btn" value="Submit"/>-->
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <table class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <td>Position</td>
+                    <td>Rate</td>
+                    <td>Name</td>
+                    <td>Votes</td>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr th:if="${topRating.empty}">
+                        <td colspan="4">No rating</td>
+                    </tr>
+                    <tr th:each="rating : ${topRating}">
+                        <td th:text="${rating.position}"></td>
+                        <td th:text="${rating.rate}"></td>
+                        <td th:text="${rating.originalName}"></td>
+                        <td th:text="${rating.votes}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
